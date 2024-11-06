@@ -4,243 +4,172 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LDU Factorization</title>
-    <link rel="stylesheet" href="style.css">
-
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .matrix-input, .matrix-display { margin-top: 10px; }
+        table { border-collapse: collapse; }
+        td, th { border: 1px solid black; padding: 5px; text-align: center; }
+        #results { margin-top: 20px; }
+    </style>
 </head>
 <body>
 
-
-<h2>LDU Factorization Calculator</h2>
-<p>Enter a 3x3 matrix:</p>
-
+<h2>LDU Factorization</h2>
 
 <div>
-    <table>
-        <tr>
-            <td><input type="number" id="m00" placeholder="a11"></td>
-            <td><input type="number" id="m01" placeholder="a12"></td>
-            <td><input type="number" id="m02" placeholder="a13"></td>
-        </tr>
-        <tr>
-            <td><input type="number" id="m10" placeholder="a21"></td>
-            <td><input type="number" id="m11" placeholder="a22"></td>
-            <td><input type="number" id="m12" placeholder="a23"></td>
-        </tr>
-        <tr>
-            <td><input type="number" id="m20" placeholder="a31"></td>
-            <td><input type="number" id="m21" placeholder="a32"></td>
-            <td><input type="number" id="m22" placeholder="a33"></td>
-        </tr>
-    </table>
+    <label for="matrixOrder">Enter the order of the matrix (e.g., 3 for a 3x3 matrix):</label>
+    <input type="number" id="matrixOrder" min="2" max="10">
+    <button onclick="generateMatrixInput()">Generate Matrix Input</button>
 </div>
 
+<div id="matrixInput" class="matrix-input"></div>
+<button onclick="performLDU()" style="margin-top: 10px;">Factorize</button>
 
-<button onclick="calculateLDU()">Calculate LDU Factorization</button>
-<br>
-
-<div id="resultsContainer" style="display: none;">
-    <h3>Results:</h3>
-
-
-    <!-- L Matrix and its Formation Steps -->
-    <div>
-        <p><strong>L Matrix:</strong></p>
-        <pre id="LMatrix"></pre>
-
-
-        <h3>L Matrix Formation Steps:</h3>
-        <div id="LStepsContainer"></div>
-    </div>
-
-
-    <!-- D Matrix and its Formation Steps -->
-    <div>
-        <p><strong>D Matrix (Diagonal):</strong></p>
-        <pre id="DMatrix"></pre>
-
-
-        <h3>D Matrix Formation Steps:</h3>
-        <div id="DStepsContainer"></div>
-    </div>
-
-
-    <!-- U Matrix and its Formation Steps -->
-    <div>
-        <p><strong>U Matrix:</strong></p>
-        <pre id="UMatrix"></pre>
-
-
-        <h3>U Matrix Formation Steps:</h3>
-        <div id="UStepsContainer"></div>
-    </div>
-
-
-    <!-- Transformation Steps -->
-    <h3>Transformation Steps:</h3>
-    <div id="stepsContainer"></div>
-
-
-
-
-    <h3>Verification:</h3>
-    <p>Multiplying L, D, and U matrices should yield the initial matrix:</p>
-    <pre id="VerificationMatrix"></pre>
-</div>
-
+<div id="results"></div>
 
 <script>
-// Function to get matrix input from user
-function getMatrixInput() {
-    return [
-        [parseFloat(document.getElementById("m00").value), parseFloat(document.getElementById("m01").value), parseFloat(document.getElementById("m02").value)],
-        [parseFloat(document.getElementById("m10").value), parseFloat(document.getElementById("m11").value), parseFloat(document.getElementById("m12").value)],
-        [parseFloat(document.getElementById("m20").value), parseFloat(document.getElementById("m21").value), parseFloat(document.getElementById("m22").value)]
-    ];
-}
+    // Function to generate input fields for the matrix based on the specified order
+    function generateMatrixInput() {
+        const order = parseInt(document.getElementById("matrixOrder").value);
+        const matrixInput = document.getElementById("matrixInput");
+        matrixInput.innerHTML = "";
 
-
-// Function for LDU Factorization process
-function lduFactorization(matrix) {
-    const n = matrix.length;
-    let L = Array.from({ length: n }, () => Array(n).fill(0)); // Initialize L matrix with zeros
-    let D = Array(n).fill(0); // Initialize D matrix
-    let U = Array.from({ length: n }, () => Array(n).fill(0)); // Initialize U matrix with zeros
-    let steps = []; // To store each transformation matrix E_i
-    let LSteps = []; // To store each L matrix formation step
-    let DSteps = []; // To store each D matrix step
-    let USteps = []; // To store each U matrix formation step
-
-    // Step 1: Initialize the L matrix as the identity matrix
-    for (let i = 0; i < n; i++) {
-        L[i][i] = 1; // Diagonal elements of L are 1
-    }
-
-    // Step 2: Decompose the matrix into L, D, U
-    for (let i = 0; i < n; i++) {
-        // Step 2.1: Set the pivot element of D matrix
-        D[i] = matrix[i][i]; // D matrix stores diagonal elements from the original matrix
-
-        // Record the D matrix step (transformation of D)
-        let DStep = matrix.map(row => [...row]); // Capture the matrix state before updating
-        DSteps.push({ step: `D after setting pivot at row ${i + 1}`, matrix: DStep });
-
-        // Step 2.2: Check for zero pivot (this could be handled by pivoting if necessary)
-        if (D[i] === 0) {
-            throw new Error("Matrix cannot be factorized using LDU without pivoting.");
-        }
-
-        // Step 2.3: Calculate the upper triangular matrix U
-        for (let j = i; j < n; j++) {
-            U[i][j] = matrix[i][j]; // Copy the upper triangle values from the matrix
-            U[i][j] /= D[i]; // Normalize each row by the pivot element in D
-        }
-
-        // Record the U matrix step
-        let UStep = matrix.map(row => [...row]); // Capture the matrix state before updating
-        USteps.push({ step: `U after processing row ${i + 1}`, matrix: UStep });
-
-        // Step 2.4: Update the L matrix for the elements below the pivot
-        for (let j = i + 1; j < n; j++) {
-            L[j][i] = matrix[j][i] / U[i][i]; // Calculate the factor to eliminate elements below the pivot
-
-            // Now update the matrix to zero out the elements below the pivot
-            for (let k = i; k < n; k++) {
-                matrix[j][k] -= L[j][i] * U[i][k]; // Subtract the appropriate multiple of row i to eliminate
+        if (order && order > 1) {
+            const table = document.createElement("table");
+            for (let i = 0; i < order; i++) {
+                const row = document.createElement("tr");
+                for (let j = 0; j < order; j++) {
+                    const cell = document.createElement("td");
+                    const input = document.createElement("input");
+                    input.type = "number";
+                    input.id = `element-${i}-${j}`;
+                    input.style.width = "50px";
+                    cell.appendChild(input);
+                    row.appendChild(cell);
+                }
+                table.appendChild(row);
             }
-
-            // Store L matrix after every update
-            LSteps.push({ step: `L after eliminating row ${j + 1}`, matrix: formatMatrix(L) });
+            matrixInput.appendChild(table);
         }
     }
 
-    return { L, D, U, steps, LSteps, DSteps, USteps };
-}
+    // Function to perform LDU factorization
+    function performLDU() {
+        const order = parseInt(document.getElementById("matrixOrder").value);
+        let matrix = [];
 
-// Function to format the matrix for display
-function formatMatrix(matrix) {
-    return matrix.map(row => row.join('\t')).join('\n');
-}
+        // Get the matrix values from the inputs
+        for (let i = 0; i < order; i++) {
+            let row = [];
+            for (let j = 0; j < order; j++) {
+                row.push(parseFloat(document.getElementById(`element-${i}-${j}`).value));
+            }
+            matrix.push(row);
+        }
 
+        let L = Array.from({ length: order }, (_, i) => Array(order).fill(0));
+        let U = JSON.parse(JSON.stringify(matrix));
+        let D = Array.from({ length: order }, (_, i) => Array(order).fill(0));
 
-// Function to format the diagonal matrix for display
-function formatDiagonal(diagonal) {
-    return diagonal.map(val => val.toFixed(2)).join('\t');
-}
+        let resultsDiv = document.getElementById("results");
+        resultsDiv.innerHTML = "<h3>Steps of LDU Factorization:</h3>";
 
+        // Step-by-step elimination process
+        for (let i = 0; i < order; i++) {
+            // Elimination for each row below the main diagonal
+            for (let j = i + 1; j < order; j++) {
+                let factor = U[j][i] / U[i][i];
+                L[j][i] = factor; // Store in L matrix
 
-// Function to multiply matrices with handling for diagonal matrix D
-function multiplyMatrices(A, B) {
-    let result = Array.from({ length: A.length }, () => Array(B[0].length).fill(0));
+                for (let k = 0; k < order; k++) {
+                    U[j][k] -= factor * U[i][k];
+                }
+            }
+            D[i][i] = U[i][i]; // Store the diagonal element in D matrix
+            U[i] = U[i].map((val) => val / U[i][i]); // Normalize U's row for D matrix
 
+            // Display L and U matrices together at each step
+            displayMatrices(L, U, `Step ${i + 1}: Transformation of L and U Matrices`);
+        }
 
-    // Multiply A and B
-    for (let i = 0; i < A.length; i++) {
-        for (let j = 0; j < B[0].length; j++) {
-            for (let k = 0; k < A[0].length; k++) {
-                result[i][j] += A[i][k] * B[k][j];
+        // Fill in the L diagonal with 1's for a standard L matrix
+        for (let i = 0; i < order; i++) {
+            L[i][i] = 1;
+        }
+
+        // Final matrices
+        displayMatrix(L, "Final L Matrix");
+        displayMatrix(D, "Final D Matrix");
+        displayMatrix(U, "Final U Matrix");
+
+        // Verify that L * D * U = original matrix
+        let LDU = multiplyMatrices(multiplyMatrices(L, D), U);
+        displayMatrix(LDU, "L * D * U Matrix (Should be equal to original)");
+
+        // Function to display L and U matrices together
+        function displayMatrices(L, U, title) {
+            let html = `<h4>${title}</h4><div style="display: flex; gap: 20px;">`;
+
+            // Display L matrix
+            html += "<div><strong>L Matrix</strong><table>";
+            for (let row of L) {
+                html += "<tr>";
+                for (let elem of row) {
+                    html += `<td>${elem.toFixed(2)}</td>`;
+                }
+                html += "</tr>";
+            }
+            html += "</table></div>";
+
+            // Display U matrix
+            html += "<div><strong>U Matrix</strong><table>";
+            for (let row of U) {
+                html += "<tr>";
+                for (let elem of row) {
+                    html += `<td>${elem.toFixed(2)}</td>`;
+                }
+                html += "</tr>";
+            }
+            html += "</table></div>";
+
+            html += "</div>";
+            resultsDiv.innerHTML += html;
+        }
+
+        // Function to display a single matrix on the webpage
+        function displayMatrix(matrix, title) {
+            let html = `<h4>${title}</h4><table>`;
+            for (let row of matrix) {
+                html += "<tr>";
+                for (let elem of row) {
+                    html += `<td>${elem.toFixed(2)}</td>`;
+                }
+                html += "</tr>";
+            }
+            html += "</table>";
+            resultsDiv.innerHTML += html;
+        }
+    }
+
+    // Helper function to multiply two matrices
+    function multiplyMatrices(A, B) {
+        const rowsA = A.length, colsA = A[0].length;
+        const rowsB = B.length, colsB = B[0].length;
+
+        if (colsA !== rowsB) throw new Error("Matrix multiplication dimension mismatch");
+
+        let result = Array.from({ length: rowsA }, () => Array(colsB).fill(0));
+
+        for (let i = 0; i < rowsA; i++) {
+            for (let j = 0; j < colsB; j++) {
+                for (let k = 0; k < colsA; k++) {
+                    result[i][j] += A[i][k] * B[k][j];
+                }
             }
         }
+        return result;
     }
-    return result;
-}
-
-
-// Corrected verification step to account for the diagonal matrix D
-function verifyLDU(L, D, U) {
-    // First multiply L and D (D is diagonal, so we multiply each row of L by the corresponding diagonal element of D)
-    let LD = Array.from({ length: L.length }, () => Array(L.length).fill(0));
-
-
-    for (let i = 0; i < L.length; i++) {
-        for (let j = 0; j < L.length; j++) {
-            LD[i][j] = L[i][j] * D[j];
-        }
-    }
-
-
-    // Then multiply the resulting LD matrix with U to get the original matrix
-    return multiplyMatrices(LD, U);
-}
-
-
-// Function to calculate and display LDU factorization
-function calculateLDU() {
-    try {
-        // Get user input for the matrix
-        const matrix = getMatrixInput();
-        const { L, D, U, steps, LSteps, DSteps, USteps, E1, E2, E3 } = lduFactorization(matrix);
-
-
-        // Display L, D, U matrices
-        document.getElementById("LMatrix").textContent = formatMatrix(L);
-        document.getElementById("DMatrix").textContent = formatDiagonal(D);
-        document.getElementById("UMatrix").textContent = formatMatrix(U);
-
-
-        // Display transformation steps
-        document.getElementById("LStepsContainer").innerHTML = LSteps.map(step => `<p>${step.step}:<br><pre>${step.matrix}</pre></p>`).join('');
-        document.getElementById("DStepsContainer").innerHTML = DSteps.map(step => `<p>${step.step}:<br><pre>${formatMatrix(step.matrix)}</pre></p>`).join('');
-        document.getElementById("UStepsContainer").innerHTML = USteps.map(step => `<p>${step.step}:<br><pre>${formatMatrix(step.matrix)}</pre></p>`).join('');
-        document.getElementById("stepsContainer").innerHTML = steps.map(step => `<p>${step.step}:<br><pre>${formatMatrix(step.matrix)}</pre></p>`).join('');
-
-
-        
-
-        // Perform verification and display the result
-        const verificationMatrix = verifyLDU(L, D, U);
-        document.getElementById("VerificationMatrix").textContent = formatMatrix(verificationMatrix);
-
-
-        document.getElementById("resultsContainer").style.display = 'block';
-    } catch (error) {
-        alert(`Error: ${error.message}`);
-    }
-}
 </script>
-
 
 </body>
 </html>
-
-
-
