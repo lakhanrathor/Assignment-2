@@ -45,3 +45,9 @@ L a unit lower triangular matrix).</li>
   <li>Optimization: In optimization problems, especially quadratic programming, LDU factorization can be a valuable tool for simplifying matrix operations.
 </li>
 </ol>
+<h2> project structure</h2>
+<ul>
+  <li> 
+    <a href="index.html"> index.html</a>
+      </li>
+</ul>
