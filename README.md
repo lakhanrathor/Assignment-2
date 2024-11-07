@@ -1,2 +1,2 @@
 # Assignment-2
-<h1> LDU Factorisation </h1>
+<h2> LDU Factorisation </h2>
