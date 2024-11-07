@@ -48,6 +48,12 @@ L a unit lower triangular matrix).</li>
 <h2> project structure</h2>
 <ul>
   <li> 
-    <a href="index.html"> index.html</a>
+    <a href="index.html"> index.html</a> The main HTML file that contains the structure of the web application.
       </li>
+  <li>
+    <a href="style.css"> style.css</a> The CSS file for styling the web application.
+  </li>
+  <li>
+    <a href="index.js"> index.js</a> The JavaScript file that contains the logic for LDU factorization and user interactions.
+  </li>
 </ul>
