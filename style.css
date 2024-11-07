@@ -5,16 +5,17 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     background-color:lightgray;
-    color: #333;
+    color: #0f0f0f;
     padding: 20px;
+    font-size: 20px;
 }
 
 h2 {
     text-align: center;
     color: sienna;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     font-family: 'Times New Roman', Times, serif;
     font-size: 30px;
 }
@@ -29,6 +30,7 @@ h2 {
     margin: 5px;
     padding: 5px;
     text-align: center;
+    background-color: aliceblue;
 }
 
 button {
@@ -51,10 +53,12 @@ button:hover {
     padding: 20px;
     background-color: #e7e7e7;
     border-radius: 5px;
+    
 }
 
 #results h3 {
     margin-bottom: 10px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .matrix-input {

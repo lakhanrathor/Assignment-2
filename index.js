@@ -75,11 +75,11 @@
 
         // Verify that L * D * U = original matrix
         let LDU = multiplyMatrices(multiplyMatrices(L, D), U);
-        displayMatrix(LDU, "L * D * U Matrix (Should be equal to original)");
+        displayMatrix(LDU, "L * D * U Matrix (Should be equal to original Matrix)");
 
         // Function to display L and U matrices together
         function displayMatrices(L, U, title) {
-            let html = `<h4>${title}</h4><div style="display: flex; gap: 20px;">`;
+            let html = `<h4>${title}</h4><div style="display: flex; gap: 30px;">`;
 
             // Display L matrix
             html += "<div><strong>L Matrix</strong><table>";
