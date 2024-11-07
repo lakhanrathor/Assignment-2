@@ -6,15 +6,17 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color:lightgray;
     color: #333;
     padding: 20px;
 }
 
 h2 {
     text-align: center;
-    color: #4CAF50;
+    color: sienna;
     margin-bottom: 20px;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 30px;
 }
 
 #matrixInput {
