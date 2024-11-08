@@ -1,85 +1,124 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
 
 body {
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    background-color:lightgray;
-    color: #0f0f0f;
+    font-family: Arial, sans-serif;
+    background-color: #2fc4c4;
+    color: #333333;
+    margin: 0;
     padding: 20px;
-    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-h1 {
+h2 {
+    color: #ac1abc;
     text-align: center;
-    color: crimson;
-    margin-bottom: 30px;
-    font-family: 'Times New Roman', Times, serif;
-    font-size: 30px;
+    font-size: 2rem;
+    margin-bottom: 20px;
 }
 
-#matrixInput {
-    margin: 20px auto;
-    text-align: center;
+label {
+    font-weight: bold;
+    font-size: 1.1rem;
 }
 
-.matrix-input input {
-    width: 50px;
-    margin: 5px;
-    padding: 5px;
+input[type="number"] {
+    width: 60px;
+    padding: 6px;
+    margin: 0 10px;
+    border-radius: 4px;
+    border: 1px solid #a706c7;
     text-align: center;
-    background-color: aliceblue;
+    font-size: 1rem;
 }
 
 button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
     padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
+    background-color: #2a0079;
+    color: rgb(244, 242, 242);
+    border: none;
     border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #d6dddc;
+    transform: translateY(-1px);
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+.matrix-input {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+table {
+    border-collapse: collapse;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(214, 21, 21, 0.15);
+}
+
+td, th {
+    border: 1px solid #e811c8;
+    padding: 10px;
+    text-align: center;
+    width: 60px;
+    background-color: #ffffff;
+}
+
+td input {
+    width: 100%;
+    text-align: center;
+    border: none;
+    font-size: 1rem;
+    background-color: #f9f9f9;
 }
 
 #results {
     margin-top: 30px;
-    padding: 20px;
-    background-color: #e7e7e7;
-    border-radius: 5px;
-    
+    max-width: 80%;
+    text-align: center;
+    font-size: 1.1rem;
 }
 
 #results h3 {
-    margin-bottom: 10px;
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: hsl(18, 81%, 37%);
+    font-size: 1.4rem;
+    margin-top: 20px;
 }
 
-.matrix-input {
+#results h4 {
+    color: #250a1f;
+    font-size: 1.2rem;
+    margin-top: 15px;
+}
+
+#results table {
+    margin: 10px auto;
+}
+
+#results td, #results th {
+    font-weight: normal;
+}
+
+/* Flexbox styling for step results to align L and U matrices side-by-side */
+#results .step-result {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
+    gap: 40px;
+    margin-top: 20px;
+    align-items: flex-start;
 }
 
-.matrix-input input {
-    width: 50px;
-    margin: 5px;
-    padding: 5px;
-    font-size: 16px;
-    text-align: center;
-}
-
-.error {
-    color: red;
+#results .matrix-title {
     font-weight: bold;
-}
-
-.success {
-    color: green;
-    font-weight: bold;
+    margin-bottom: 5px;
 }
