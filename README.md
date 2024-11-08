@@ -4,7 +4,7 @@
 <ul>
   <li> L: A lower triangular matrix</li>
   <li> D: A diagonal matrix</li>
-  <li> U: An Upper traingular matrix</li>
+  <li> U: An Upper triangular matrix</li>
 </ul>
 <p> LDU Factorisation is useful in several areas of numerical analysis and linear algebra </p>
 <ul>
