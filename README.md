@@ -15,28 +15,19 @@
 <h2>How LDU Factorization Works</h2>
 <ol>
   <li>Step 1: Decompose the matrix 
-𝐴
-A into 
-𝐿
-L and 
-𝑈
-U using methods such as Gaussian elimination (without pivoting).</li>
+𝐴 into 
+𝐿 and 
+𝑈 using methods such as Gaussian elimination (without pivoting).</li>
   <li>Step 2: Extract the diagonal elements from the product of 
-𝐿
-L and 
-𝑈
-U to form the diagonal matrix 
+𝐿 and 
+𝑈 to form the diagonal matrix 
 𝐷
-D</li>
+  </li>
   <li>Step 3: Adjust 
-𝐿
-L and 
-𝑈
-U so that the diagonal elements of 
-𝐿
-L become 1 (i.e., make 
-𝐿
-L a unit lower triangular matrix).</li>
+𝐿 and 
+𝑈 so that the diagonal elements of 
+𝐿 become 1 (i.e., make 
+𝐿 a unit lower triangular matrix).</li>
 </ol>
 <h2>Applications of LDU Factorization</h2>
 <ol>
