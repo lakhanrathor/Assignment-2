@@ -3,37 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
     <title>LDU Factorization</title>
+    <link rel="stylesheet" href="style.css">
     
 </head>
 <body>
 
-<h1>LDU Factorization Calculator</h1>
-<p> It is a method of decomposing a square matrix of any arbitrary dimension into the product of three matrices. <br> 
-    <li>L : Lower Triangular Matrix</li>
-    <li>D : Diagonal Matrix</li>
-    <li>U : Upper Triangular Matrix</li>
-</p>
-
+<h2>LDU Factorization</h2>
 
 <div id="container">
     <label for="matrixOrder">Enter the order of the matrix (e.g., 3 for a 3x3 matrix):</label>
-    <input type="number" id="matrixOrder" min="2" max="10">
-        <br>
-
-    <button onclick="generateMatrixInput()">Generate Matrix Input</button>
+    <input type="number" id="matrixOrder" min="2" max="10" disabled>
+    <br>
+    <button disabled>Generate Matrix Input</button>
 </div>
 
-<div id="matrixInput" class="matrix-input"></div>
-<button onclick="performLDU()" style="margin-top: 10px;">Factorize</button>
+<div id="matrixInput" class="matrix-input">
+    <p>Fixed 3x3 Matrix:</p>
+    <table>
+        <tr><td>2</td><td>2</td><td>3</td></tr>
+        <tr><td>4</td><td>5</td><td>6</td></tr>
+        <tr><td>7</td><td>8</td><td>9</td></tr>
+    </table>
+</div>
 
-<div id="results"></div>
-<script src="index.js"></script>
+<button style="margin-top: 10px;" disabled>Factorize</button>
 
-    <footer>
-        Know more about LDU Factorization <a href="Documentation.html" target="_main"> LDU </a>   
-    </footer>
+<div id="results">
+    <h3>Steps of LDU Factorization:</h3>
+
+    <h4>Step 1: Transformation of L and U Matrices</h4>
+    <div class="matrix-section">
+        <div>
+            <strong>L Matrix</strong>
+            <table>
+                <tr><td>0</td><td>0</td><td>0</td></tr>
+                <tr><td>2.00</td><td>0</td><td>0</td></tr>
+                <tr><td>3.50</td><td>0</td><td>0</td></tr>
+            </table>
+        </div>
+        <div>
+            <strong>U Matrix</strong>
+            <table>
+                <tr><td>2.00</td><td>2.00</td><td>3.00</td></tr>
+                <tr><td>0.00</td><td>1.00</td><td>0.00</td></tr>
+                <tr><td>0.00</td><td>0.00</td><td>-0.50</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <h4>Step 2: Transformation of L and U Matrices</h4>
+    <div class="matrix-section">
+        <div>
+            <strong>L Matrix</strong>
+            <table>
+                <tr><td>0</td><td>0</td><td>0</td></tr>
+                <tr><td>2.00</td><td>0</td><td>0</td></tr>
+                <tr><td>3.50</td><td>1.50</td><td>0</td></tr>
+            </table>
+        </div>
+        <div>
+            <strong>U Matrix</strong>
+            <table>
+                <tr><td>2.00</td><td>2.00</td><td>3.00</td></tr>
+                <tr><td>0.00</td><td>1.00</td><td>0.00</td></tr>
+                <tr><td>0.00</td><td>0.00</td><td>-0.50</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <h3>Final Matrices</h3>
+    <h4>Final L Matrix</h4>
+    <table>
+        <tr><td>1</td><td>0</td><td>0</td></tr>
+        <tr><td>2.00</td><td>1</td><td>0</td></tr>
+        <tr><td>3.50</td><td>1.50</td><td>1</td></tr>
+    </table>
+
+    <h4>Final D Matrix</h4>
+    <table>
+        <tr><td>2</td><td>0</td><td>0</td></tr>
+        <tr><td>0</td><td>1</td><td>0</td></tr>
+        <tr><td>0</td><td>0</td><td>-0.50</td></tr>
+    </table>
+
+    <h4>Final U Matrix</h4>
+    <table>
+        <tr><td>1</td><td>1</td><td>1.5</td></tr>
+        <tr><td>0</td><td>1</td><td>0</td></tr>
+        <tr><td>0</td><td>0</td><td>1</td></tr>
+    </table>
+
+    <h3>L * D * U Matrix (Should be equal to original)</h3>
+    <table>
+        <tr><td>2.00</td><td>2.00</td><td>3.00</td></tr>
+        <tr><td>4.00</td><td>5.00</td><td>6.00</td></tr>
+        <tr><td>7.00</td><td>8.00</td><td>9.00</td></tr>
+    </table>
+</div>
 
 </body>
 </html>
