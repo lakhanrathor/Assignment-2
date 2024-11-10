@@ -44,7 +44,4 @@
   <li>
     <a href="style.css"> style.css</a> The CSS file for styling the web application.
   </li>
-  <li>
-    <a href="index.js"> index.js</a> The JavaScript file that contains the logic for LDU factorization and user interactions.
-  </li>
 </ul>
