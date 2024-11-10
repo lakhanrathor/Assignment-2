@@ -37,3 +37,13 @@ li{
     padding: 5px;
     font-family:Arial, Helvetica, sans-serif;
 }
+
+table{
+    color: brown;
+    text-align: center;
+    font-size: 20px;
+}
+
+th{
+    color: green;
+}
